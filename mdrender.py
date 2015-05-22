@@ -1,73 +1,28 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
+import codecs
+import markdown
 
-from markdown import markdown
-from os import getenv
-from subprocess import call
-from tempfile import NamedTemporaryFile
+##Makrdown Converting starts here
 
-import sys
+md_note = "/tmp/tmp/test-note.md"
+html_note = "/tmp/tmp/RENDERD_TEST_NOTE.html"
 
+input_file = codecs.open(
+        md_note,
+        mode="r",
+        encoding="utf-8"
+        )
 
-HEADER = """<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
+text = input_file.read()
 
-        <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+html = markdown.markdown(text)
 
-        <style>
-        *, *:after, *::before {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: left;
-        }
+output_file = codecs.open(
+        html_note,
+        "w",
+        encoding="utf-8",
+        errors="xmlcharrefreplace"
+        )
+output_file.write(html)
 
-        .content {
-            position: relative;
-            padding: 1em 0;
-            width: 70%;
-            text-align: left;
-            margin-right: auto;
-            margin-left: auto;
-        }
-        
-         * {
-           font-family: sans-serif;
-           font-weight:300;
-         }
-        </style>
-
-    </head>
-    <body>
-        <div class="content">
-"""
-
-FOOTER = """
-        <div>
-    </body>
-</html>
-"""
-
-
-def md(content):
-    with NamedTemporaryFile(delete=False, suffix='.html') as fp:
-        fp.write(HEADER.encode('UTF-8'))
-        fp.write(markdown(content).encode('UTF-8'))
-        fp.write(FOOTER.encode('UTF-8'))
-        print(fp.name)
-
-
-if len(sys.argv) == 1:
-    md(sys.stdin.read())
-else:
-    for i in sys.argv[1:]:
-        with open(i, 'r') as fp:
-            md(fp.read())
