@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+
+from markdown import markdown
+from os import getenv
+from subprocess import call
+from tempfile import NamedTemporaryFile
+
+import sys
+
+
+HEADER = """<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+        <style>
+        *, *:after, *::before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+        }
+
+        .content {
+            position: relative;
+            padding: 1em 0;
+            width: 70%;
+            text-align: left;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        
+         * {
+           font-family: sans-serif;
+           font-weight:300;
+         }
+        </style>
+
+    </head>
+    <body>
+        <div class="content">
+"""
+
+FOOTER = """
+        <div>
+    </body>
+</html>
+"""
+
+
+def md(content):
+    with NamedTemporaryFile(delete=False, suffix='.html') as fp:
+        fp.write(HEADER.encode('UTF-8'))
+        fp.write(markdown(content).encode('UTF-8'))
+        fp.write(FOOTER.encode('UTF-8'))
+        print(fp.name)
+
+
+if len(sys.argv) == 1:
+    md(sys.stdin.read())
+else:
+    for i in sys.argv[1:]:
+        with open(i, 'r') as fp:
+            md(fp.read())
