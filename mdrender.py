@@ -25,4 +25,4 @@ output_file = codecs.open(
         encoding="utf-8",
         errors="xmlcharrefreplace"
         )
-output_file.write(html)
+output_file.write(notekit_html.HEADER + html + notekit_html.FOOTER)
