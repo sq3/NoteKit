@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-HEADER = """<!DOCTYPE html>
+HEADER = u"""<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -41,7 +41,7 @@ HEADER = """<!DOCTYPE html>
         <div class="content">
 """
 
-FOOTER = """
+FOOTER = u"""
         <div>
     </body>
 </html>
