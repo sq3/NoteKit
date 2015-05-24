@@ -42,6 +42,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--publish', '-p', dest='action', action='store_const', const=publish, help='Publishe your note')
 parser.add_argument('--show', '-s', dest='action', action='store_const', const=show, help='Shows you a preview of your renderd note')
+parser.add_argument('note', nargs='*')
 
 parsed_args = parser.parse_args()
 if parsed_args.action is None:
