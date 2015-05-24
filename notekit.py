@@ -29,9 +29,7 @@ def show(*args, **kwargs):
     
     input_file = codecs.open(md_note, mode="r", encoding="utf-8")
     
-    text = input_file.read()
-    
-    html = markdown.markdown(text)
+    note = markdown.markdown(input_file.read())
     
     output_file = codecs.open(html_note, "w", encoding="utf-8", errors="xmlcharrefreplace")
     
