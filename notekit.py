@@ -10,7 +10,7 @@ import sys
 import subprocess
 
 
-def publish(parsed_args):
+def publish(*args, **kwargs):
     def scp(source, server, path = settings.remote_note_path):
     	return not subprocess.Popen(["scp", source, "%s:%s" % (server, path)]).wait()
     	filename = "example-note"
@@ -23,8 +23,8 @@ def publish(parsed_args):
     		print("File upload failed.")
     		return 1
 
-def show(parsed_args):
     md_note = "/tmp/tmp/test-note.md"
+def show(*args, **kwargs):
     html_note = "/tmp/tmp/RENDERD_TEST_NOTE.html"
     
     input_file = codecs.open(md_note, mode="r", encoding="utf-8")
@@ -40,11 +40,16 @@ def show(parsed_args):
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--publish', '-p', dest='action', action='store_const', const=publish, help='Publishe your note')
-parser.add_argument('--show', '-s', dest='action', action='store_const', const=show, help='Shows you a preview of your renderd note')
-parser.add_argument('note', nargs='*')
+parser.add_argument('--publish', '-p', action='store_true', help='Publishe your note')
+parser.add_argument('--show', '-s',  action='store_true', help='Shows you a preview of your renderd note')
+parser.add_argument('note', nargs='+')
 
 parsed_args = parser.parse_args()
 if parsed_args.action is None:
     parser.parse_args(['-h'])
 parsed_args.action(parsed_args)
+if parsed_args.publish:
+    publish(parsed_args)
+elif parsed_args.show:
+    show(parsed_args)
+    note = ''.join(parsed_args.note)
