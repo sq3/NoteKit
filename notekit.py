@@ -25,6 +25,8 @@ def render(parsed_args):
     return html_note
 
 
+def show(parsed_args):
+    print("Open " + render(parsed_args) + " in your browser for a preview of your note")
 
 
 parser = argparse.ArgumentParser()
