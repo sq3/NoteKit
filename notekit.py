@@ -46,7 +46,7 @@ def publish(parsed_args):
         print "Note URL: " + settings.base_url + title.replace(' ', '-') + ".html"
         return 0
     else:
-        print("File upload failed.")
+        print("Upload failed.")
         return 1
 
 parser = argparse.ArgumentParser()
