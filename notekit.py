@@ -10,30 +10,21 @@ import sys
 import subprocess
 
 
-def publish(*args, **kwargs):
-    def scp(source, server, path = settings.remote_note_path):
-    	return not subprocess.Popen(["scp", source, "%s:%s" % (server, path)]).wait()
-    	filename = "example-note"
-    	server = settings.server
-    
-    	if scp(filename, server):
-    		print("File uploaded successfully.")
-    		return 0
-    	else:
-    		print("File upload failed.")
-    		return 1
-
-    md_note = "/tmp/tmp/test-note.md"
-def show(*args, **kwargs):
-    html_note = "/tmp/tmp/RENDERD_TEST_NOTE.html"
+def render(parsed_args):
+    md_note = ''.join(parsed_args.note)
+    html_note = settings.preview + ''.join(parsed_args.title) + ".html"
     
     input_file = codecs.open(md_note, mode="r", encoding="utf-8")
-    
+  
     note = markdown.markdown(input_file.read())
     
     output_file = codecs.open(html_note, "w", encoding="utf-8", errors="xmlcharrefreplace")
     
-    output_file.write(notekit_html.HEADER + html + notekit_html.FOOTER)
+    output_file.write(notekit_html.HEADER + note + notekit_html.FOOTER)
+   
+    return html_note
+
+
 
 
 parser = argparse.ArgumentParser()
