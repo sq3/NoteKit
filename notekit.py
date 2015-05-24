@@ -35,12 +35,15 @@ def publish(parsed_args):
     
     filename = render(parsed_args) 
     server = settings.server
+    title = ''.join(parsed_args.title)
+    remote_path = settings.remote_note_path + title.replace(' ', '-') + ".html"
 
-    def scp(source, server, path = settings.remote_note_path):
+
+    def scp(source, server, path = remote_path):
         return not subprocess.Popen(["scp", source, "%s:%s" % (server, path)]).wait()
             
     if scp(filename, server):
-        print("File uploaded successfully.")
+        print "Note URL: " + settings.base_url + title.replace(' ', '-') + ".html"
         return 0
     else:
         print("File upload failed.")
