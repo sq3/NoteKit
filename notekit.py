@@ -28,6 +28,21 @@ def render(parsed_args):
 def show(parsed_args):
     print("Open " + render(parsed_args) + " in your browser for a preview of your note")
 
+ 
+def publish(parsed_args):
+    
+    filename = render(parsed_args) 
+    server = settings.server
+
+    def scp(source, server, path = settings.remote_note_path):
+        return not subprocess.Popen(["scp", source, "%s:%s" % (server, path)]).wait()
+            
+    if scp(filename, server):
+        print("File uploaded successfully.")
+        return 0
+    else:
+        print("File upload failed.")
+        return 1
 
 parser = argparse.ArgumentParser()
 
