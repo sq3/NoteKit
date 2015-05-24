@@ -26,6 +26,9 @@ def render(parsed_args):
 
 def show(parsed_args):
     print("Open " + render(parsed_args) + " in your browser for a preview of your note")
+    
+    ##only works on Mac OS X
+    subprocess.Popen(['open', render(parsed_args)])
 
  
 def publish(parsed_args):
