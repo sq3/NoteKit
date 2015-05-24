@@ -3,7 +3,6 @@
 import argparse
 import codecs
 import markdown
-import mdrender
 import notekit_html
 import settings
 import sys
@@ -46,16 +45,13 @@ def publish(parsed_args):
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--publish', '-p', action='store_true', help='Publishe your note')
+parser.add_argument('--publish', '-p', action='store_true', help='Publish your note')
 parser.add_argument('--show', '-s',  action='store_true', help='Shows you a preview of your renderd note')
-parser.add_argument('note', nargs='+')
+parser.add_argument('note', nargs='+', help='Gives NoteKit the path of the source file ')
+parser.add_argument('title', nargs='+', help='Set the title for your note')
 
 parsed_args = parser.parse_args()
-if parsed_args.action is None:
-    parser.parse_args(['-h'])
-parsed_args.action(parsed_args)
 if parsed_args.publish:
     publish(parsed_args)
 elif parsed_args.show:
     show(parsed_args)
-    note = ''.join(parsed_args.note)
